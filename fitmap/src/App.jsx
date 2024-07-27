@@ -5,7 +5,7 @@ import React from 'react';
 import Home from './MainPage/Home';
 import Nav from './MainPage/Nav';
 import Footer from './MainPage/Footer';
-import { GlobalStyle } from './MainPage/Nav.styled';
+import { GlobalStyle } from './GlobalStyle';
 
 const App = () => {
   return (

@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import styled from 'styled-components';
+import { FaSearch } from 'react-icons/fa';
+import { SearchBody, SearchInput } from './Search.styled';
 
 const Search = ({ searchValue, setSearchValue }) => {
   const handleChange = (event) => {
@@ -15,21 +17,9 @@ const Search = ({ searchValue, setSearchValue }) => {
         value={searchValue}
         onChange={handleChange}
       ></SearchInput>
+      <FaSearch color="#0055553b" />
     </SearchBody>
   );
 };
 
 export default Search;
-
-const SearchBody = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 30px 0;
-`;
-
-const SearchInput = styled.input`
-  width: 250px;
-  height: 25px;
-  border: 1px solid lightgrey;
-`;
