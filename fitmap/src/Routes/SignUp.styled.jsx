@@ -50,6 +50,12 @@ export const PasswordContainer = styled.div`
   align-items: center;
   position: relative;
 `;
+export const ErrorMessage = styled.div`
+  color: #f70000;
+  font-size: 12px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+`;
 
 export const ToggleButton = styled.button`
   position: absolute;
