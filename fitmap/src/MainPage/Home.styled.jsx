@@ -6,6 +6,6 @@ export const SloganContainer = styled.div`
   text-align: center;
   font-size: x-large;
   font-weight: 900;
-  padding-top: 70px;
-  padding-bottom: 50px;
+  padding-top: 40px;
+  padding-bottom: 0px;
 `;

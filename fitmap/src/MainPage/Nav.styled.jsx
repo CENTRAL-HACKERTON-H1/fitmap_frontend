@@ -14,14 +14,15 @@ export const NavContent = styled.div`
   gap: 15px;
   margin-right: 10px;
   font-weight: 500;
+  font-size: 17px;
   div {
     padding: 12px;
   }
   img {
     margin-left: 10px;
     margin-right: -20px;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     padding: 10px;
   }
 `;

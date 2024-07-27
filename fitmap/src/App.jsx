@@ -7,24 +7,27 @@ import Nav from './MainPage/Nav';
 import Footer from './MainPage/Footer';
 import Community from './Routes/Community';
 import Login from './Routes/Login';
+import { AuthProvider } from '../src/Routes/AuthContext';
 
 function App() {
   return (
-    <AppContainer>
-      <BrowserRouter>
-        <GlobalStyle />
-        <Nav />
-        <ContentContainer>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/community" element={<Community />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-          </Routes>
-        </ContentContainer>
-        <Footer />
-      </BrowserRouter>
-    </AppContainer>
+    <AuthProvider>
+      <AppContainer>
+        <BrowserRouter>
+          <GlobalStyle />
+          <Nav />
+          <ContentContainer>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+            </Routes>
+          </ContentContainer>
+          <Footer />
+        </BrowserRouter>
+      </AppContainer>
+    </AuthProvider>
   );
 }
 

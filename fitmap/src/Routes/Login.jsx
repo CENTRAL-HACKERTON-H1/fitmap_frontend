@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 // Style import
 import {
@@ -22,6 +23,7 @@ import {
 const Login = () => {
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+  const [showPw, setShowPw] = useState(false);
 
   const login = async () => {
     try {
@@ -64,13 +66,18 @@ const Login = () => {
             value={id}
             onChange={IdChange}
           />
-
           <InputTitle>비밀번호</InputTitle>
-          <InputContent
-            placeholder="비밀번호를 입력해주세요."
-            value={pw}
-            onChange={PwChange}
-          />
+          <PasswordContainer>
+            <InputContent
+              type={showPw ? 'text' : 'password'}
+              placeholder="비밀번호를 입력해주세요."
+              value={pw}
+              onChange={PwChange}
+            />
+            <ToggleButton onClick={() => setShowPw(!showPw)}>
+              {showPw ? <FaEyeSlash /> : <FaEye />}
+            </ToggleButton>
+          </PasswordContainer>
 
           <div>
             <ButtonContainer>
