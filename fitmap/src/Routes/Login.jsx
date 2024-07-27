@@ -55,7 +55,7 @@ const Login = () => {
   return (
     <MainContainer>
       <SignUpContainer>
-        <TitleContainer>로그인 페이지입니다.</TitleContainer>
+        <TitleContainer>Login with your account</TitleContainer>
         <ContentContainer>
           <InputTitle>아이디</InputTitle>
 
