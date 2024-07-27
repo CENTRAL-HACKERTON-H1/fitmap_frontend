@@ -6,7 +6,6 @@ export const FilterContainer = styled.div`
   flex-wrap: wrap;
   align-items: baseline;
   width: 90vh;
-  padding: 30px;
   margin: auto;
   gap: 15px;
 `;

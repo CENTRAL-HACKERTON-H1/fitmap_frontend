@@ -5,6 +5,8 @@ import Search from './Search';
 import Filter from './Filter';
 import styled from 'styled-components';
 import { SloganContainer } from './Home.styled';
+import Nav from './Nav';
+import Footer from './Footer';
 
 const Home = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -45,6 +47,7 @@ const Home = () => {
       {/* 서치 */}
       <Search searchValue={searchValue} setSearchValue={setSearchValue} />
       {/* 필터 */}
+      {/* 전체 height 바꾸려면 아래 div style 변경하기 */}
       <div style={{ height: '425px' }}>
         <Filter filters={filters} onFilterChange={handleFilterChange} />
         {/* <ActivityList activities={filteredActivities} /> */}

@@ -21,5 +21,4 @@ const Search = ({ searchValue, setSearchValue }) => {
     </SearchBody>
   );
 };
-
 export default Search;

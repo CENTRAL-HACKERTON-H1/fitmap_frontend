@@ -1,21 +1,34 @@
-// 여기가 보여지는 페이지
-/* eslint-disable no-unused-vars */
-
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { GlobalStyle, AppContainer, ContentContainer } from './GlobalStyle';
 import Home from './MainPage/Home';
+import SignUp from './Routes/SignUp';
 import Nav from './MainPage/Nav';
 import Footer from './MainPage/Footer';
-import { GlobalStyle } from './GlobalStyle';
+import Community from './Routes/Community';
+import Login from './Routes/Login';
+import { AuthProvider } from '../src/Routes/AuthContext';
 
-const App = () => {
+function App() {
   return (
-    <>
-      <GlobalStyle />
-      <Nav />
-      <Home />
-      <Footer />
-    </>
+    <AuthProvider>
+      <AppContainer>
+        <BrowserRouter>
+          <GlobalStyle />
+          <Nav />
+          <ContentContainer>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/community" element={<Community />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+            </Routes>
+          </ContentContainer>
+          <Footer />
+        </BrowserRouter>
+      </AppContainer>
+    </AuthProvider>
   );
-};
+}
 
 export default App;

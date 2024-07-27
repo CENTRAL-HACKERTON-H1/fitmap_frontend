@@ -2,7 +2,7 @@
 import React from 'react';
 import { FooterContainer } from './Footer.styled';
 
-export default function Footer() {
+const Footer = () => {
   return (
     <div>
       <FooterContainer>
@@ -10,4 +10,5 @@ export default function Footer() {
       </FooterContainer>
     </div>
   );
-}
+};
+export default Footer;

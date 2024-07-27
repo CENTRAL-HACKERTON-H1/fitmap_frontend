@@ -1,8 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { NavContainer, NavContent, NavLink } from './Nav.styled';
+import { NavContainer, NavContent, NavLink, StyledLink } from './Nav.styled';
+import { useAuth } from '../Routes/AuthContext';
 
 const Nav = () => {
+  const { isLoggedIn, logout } = useAuth();
+
   return (
     <div>
       <NavContainer>
@@ -12,15 +15,22 @@ const Nav = () => {
         </NavContent>
         <NavContent>
           <NavLink>
-            <a href="/Home">Home</a>
-            <a href="">Community</a>
-            <a href="">Login</a>
-            <a href="">Sign In</a>
+            <StyledLink to="/">Home</StyledLink>
+            <StyledLink to="/community">Community</StyledLink>
+            {isLoggedIn ? (
+              <StyledLink as="button" onClick={logout}>
+                Logout
+              </StyledLink>
+            ) : (
+              <>
+                <StyledLink to="/login">Login</StyledLink>
+                <StyledLink to="/signup">Sign Up</StyledLink>
+              </>
+            )}
           </NavLink>
         </NavContent>
       </NavContainer>
     </div>
   );
 };
-
 export default Nav;
