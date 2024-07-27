@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { NavContainer, NavContent, NavLink } from './Nav.styled';
+import { NavContainer, NavContent, NavLink, StyledLink } from './Nav.styled';
+import { Link } from 'react-router-dom';
 
 const Nav = () => {
   return (
@@ -12,15 +13,14 @@ const Nav = () => {
         </NavContent>
         <NavContent>
           <NavLink>
-            <a href="/Home">Home</a>
-            <a href="">Community</a>
-            <a href="">Login</a>
-            <a href="">Sign In</a>
+            <StyledLink to="/">Home</StyledLink>
+            <StyledLink to="/community">Community</StyledLink>
+            <StyledLink to="/login">Login</StyledLink>
+            <StyledLink to="/signup">Sign Up</StyledLink>
           </NavLink>
         </NavContent>
       </NavContainer>
     </div>
   );
 };
-
 export default Nav;

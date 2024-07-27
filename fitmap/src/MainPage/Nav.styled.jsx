@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 // Nav 스타일 설정
 export const NavContainer = styled.nav`
@@ -29,10 +30,11 @@ export const NavLink = styled.div`
   :hover {
     background-color: white;
   }
-  a {
-    text-decoration: none;
-    color: black;
-    padding: 12px;
-    padding-bottom: 15px;
-  }
+`;
+
+export const StyledLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  padding: 12px;
+  padding-bottom: 15px;
 `;
