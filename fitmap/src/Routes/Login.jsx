@@ -1,8 +1,10 @@
 /* eslint-disable no-unused-vars */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 // Style import
 import {
@@ -24,35 +26,32 @@ const Login = () => {
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [showPw, setShowPw] = useState(false);
+  const navigate = useNavigate();
+  const { login } = useAuth();
 
-  const login = async () => {
+  const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        'https://hufs-mutsa-12th.store/dj/login/',
-        {
-          username: id,
-          password: pw,
-        }
-      );
-      console.log(response.data);
-      localStorage.setItem('token', response.data.token);
-      alert('로그인 성공');
+      const response = await axios.post('https://fitmap.store/member/login/', {
+        username: id,
+        password: pw,
+      });
+      if (response.status === 200) {
+        localStorage.setItem('access', response.data.access);
+        localStorage.setItem('refresh', response.data.refresh);
+        alert('로그인 성공');
+        login();
+        // 로그인 성공 후 페이지 이동
+        navigate('/');
+      }
     } catch (error) {
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
+      console.error(error);
+      if (error.response && error.response.data) {
+        alert(`로그인 실패: ${error.response.data.detail}`);
+      } else {
+        alert('로그인 실패: 알 수 없는 오류가 발생했습니다.');
+      }
     }
   };
-
-  function IdChange(e) {
-    console.log(e);
-    setId(e.target.value);
-  }
-
-  function PwChange(e) {
-    console.log(e);
-    setPw(e.target.value);
-  }
 
   return (
     <MainContainer>
@@ -64,7 +63,7 @@ const Login = () => {
           <InputContent
             placeholder="아이디를 입력해주세요."
             value={id}
-            onChange={IdChange}
+            onChange={(e) => setId(e.target.value)}
           />
           <InputTitle>비밀번호</InputTitle>
           <PasswordContainer>
@@ -72,7 +71,7 @@ const Login = () => {
               type={showPw ? 'text' : 'password'}
               placeholder="비밀번호를 입력해주세요."
               value={pw}
-              onChange={PwChange}
+              onChange={(e) => setPw(e.target.value)}
             />
             <ToggleButton onClick={() => setShowPw(!showPw)}>
               {showPw ? <FaEyeSlash /> : <FaEye />}
@@ -82,7 +81,7 @@ const Login = () => {
           <div>
             <ButtonContainer>
               <StyledLink to="/signup">회원가입하기</StyledLink>
-              <Button onClick={login}>로그인하기</Button>
+              <Button onClick={handleLogin}>로그인하기</Button>
             </ButtonContainer>
           </div>
         </ContentContainer>

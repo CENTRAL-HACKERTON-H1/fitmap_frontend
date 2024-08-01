@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; // 눈 아이콘 import
+import { useNavigate } from 'react-router-dom';
 
 // Style import
 import {
@@ -27,26 +28,32 @@ const SignUp = () => {
   const [showPw, setShowPw] = useState(false); // 비밀번호 표시 토글 상태
   const [showPw2, setShowPw2] = useState(false); // 비밀번호 확인 표시 토글 상태
   const [passwordMatch, setPasswordMatch] = useState(true); // 비밀번호 일치 상태
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     if (pw != pw2) {
       setPasswordMatch(false);
       return;
     }
+    setPasswordMatch(true);
     try {
-      const response = await axios.post(
-        'https://hufs-mutsa-12th.store/dj/registration/',
-        {
-          username: id,
-          password1: pw,
-          password2: pw2,
-          nickname: nickname,
-        }
-      );
-      alert('회원가입 성공');
+      const response = await axios.post('https://fitmap.store/member/signup/', {
+        username: id,
+        password1: pw,
+        password2: pw2,
+        nickname: nickname,
+      });
+      if (response.status === 201) {
+        alert('회원가입 성공, 로그인해 주세요');
+        navigate('/login');
+      }
     } catch (error) {
       console.error(error);
-      alert('회원가입 실패');
+      if (error.response && error.response.data) {
+        alert('회원가입 실패: ${error.response.data.detail}');
+      } else {
+        alert('회원가입 실패: 알 수 없는 오류가 발생했습니다.');
+      }
     }
   };
 
