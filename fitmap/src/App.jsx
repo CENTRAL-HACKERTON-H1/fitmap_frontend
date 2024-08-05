@@ -35,7 +35,7 @@ function App() {
           <ContentContainer>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/community" element={<Community />} />
+              <Route path="/community/*" element={<Community />} />
               <Route
                 path="/servicedetails"
                 element={
