@@ -140,7 +140,7 @@ const SaveButton = styled(ActionButton)`
 const CancelButton = styled(ActionButton)`
   background-color: #0055553b;
   color: #000;
-  
+
   &:hover {
     background-color: #005555;
     color: #fff;
@@ -177,8 +177,8 @@ const PostDetail = () => {
         const response = await axios.get(`https://fitmap.store/board/${id}/`, {
           withCredentials: true,
           headers: {
-            'Authorization': `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         });
         setPost(response.data);
         setLikeCount(response.data.likes || 0);
@@ -201,15 +201,15 @@ const PostDetail = () => {
           {
             withCredentials: true,
             headers: {
-              'Authorization': `Bearer ${accessToken}`
-            }
+              Authorization: `Bearer ${accessToken}`,
+            },
           }
         );
 
         // 새 댓글 추가 후 상태 업데이트
-        setPost(prevPost => ({
+        setPost((prevPost) => ({
           ...prevPost,
-          comments: [...prevPost.comments, response.data] // 새 댓글 추가
+          comments: [...prevPost.comments, response.data], // 새 댓글 추가
         }));
         setComment(''); // 댓글 입력 필드 초기화
       } catch (error) {
@@ -228,8 +228,8 @@ const PostDetail = () => {
           {
             withCredentials: true,
             headers: {
-              'Authorization': `Bearer ${accessToken}`
-            }
+              Authorization: `Bearer ${accessToken}`,
+            },
           }
         );
         setLikeCount(likeCount + 1);
@@ -256,15 +256,15 @@ const PostDetail = () => {
         {
           withCredentials: true,
           headers: {
-            'Authorization': `Bearer ${accessToken}`
-          }
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
       );
       const response = await axios.get(`https://fitmap.store/board/${id}/`, {
         withCredentials: true,
         headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
       setPost(response.data);
       setIsEditing(false);
@@ -283,8 +283,8 @@ const PostDetail = () => {
       await axios.delete(`https://fitmap.store/board/${id}/`, {
         withCredentials: true,
         headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
+          Authorization: `Bearer ${accessToken}`,
+        },
       });
       navigate('/community');
     } catch (error) {
@@ -295,15 +295,20 @@ const PostDetail = () => {
 
   const handleDeleteComment = async (commentId) => {
     try {
-      await axios.delete(`https://fitmap.store/board/${id}/comment/${commentId}/`, {
-        withCredentials: true,
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
+      await axios.delete(
+        `https://fitmap.store/board/${id}/comment/${commentId}/`,
+        {
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
         }
-      });
-      setPost(prevPost => ({
+      );
+      setPost((prevPost) => ({
         ...prevPost,
-        comments: prevPost.comments.filter(comment => comment.id !== commentId)
+        comments: prevPost.comments.filter(
+          (comment) => comment.id !== commentId
+        ),
       }));
     } catch (error) {
       console.error('댓글 삭제 오류:', error);
@@ -337,7 +342,8 @@ const PostDetail = () => {
           <Title>{post.title}</Title>
           <MetaInfo>
             <div>
-              작성자: {post.nickname} | 작성일: {new Date(post.created_at).toLocaleDateString()}
+              작성자: {post.nickname} | 작성일:{' '}
+              {new Date(post.created_at).toLocaleDateString()}
             </div>
             <ButtonGroup>
               <LikeButton onClick={handleLike} disabled={hasLiked}>
@@ -351,10 +357,14 @@ const PostDetail = () => {
           <CommentSection>
             <CommentList>
               {post.comments && post.comments.length > 0 ? (
-                post.comments.map(comment => (
+                post.comments.map((comment) => (
                   <CommentItem key={comment.id}>
                     <strong>{comment.nickname} </strong> {comment.comment}
-                    <ActionButton onClick={() => handleDeleteComment(comment.id)}>삭제</ActionButton>
+                    <ActionButton
+                      onClick={() => handleDeleteComment(comment.id)}
+                    >
+                      삭제
+                    </ActionButton>
                   </CommentItem>
                 ))
               ) : (
