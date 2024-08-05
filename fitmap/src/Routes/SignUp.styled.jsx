@@ -38,7 +38,8 @@ export const InputContent = styled.input`
   margin-top: 5px;
   margin-bottom: 15px;
   padding: 8px;
-  width: 330px;
+  width: 100%;
+  box-sizing: border-box;
   border: none;
   outline: none;
   border-radius: 5px;
@@ -50,6 +51,7 @@ export const PasswordContainer = styled.div`
   align-items: center;
   position: relative;
 `;
+
 export const ErrorMessage = styled.div`
   color: #f70000;
   font-size: 12px;
