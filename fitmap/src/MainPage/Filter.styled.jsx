@@ -38,11 +38,11 @@ export const SearchButton = styled.button`
 `;
 
 export const FilterContainer = styled.div`
-  display: ${({ show }) => (show ? 'flex' : 'none')};
+  display: ${({ $show }) => ($show ? 'flex' : 'none')};
   flex-wrap: wrap;
   gap: 20px;
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 20px 40px;
   border: 1px solid #ddd;
   border-radius: 8px;
 `;
@@ -50,6 +50,7 @@ export const FilterContainer = styled.div`
 export const FilterGroup = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 20px;
 `;
 
 export const FilterLabel = styled.label`
@@ -61,6 +62,7 @@ export const FilterLabel = styled.label`
 
 export const CheckboxContainer = styled.div`
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   gap: 5px;
 `;
@@ -74,11 +76,6 @@ export const CheckboxLabel = styled.label`
 
 export const CheckboxInput = styled.input`
   margin-right: 5px;
-`;
-
-export const FilterButton = styled.button`
-  padding: 10px 20px;
-  margin-top: 10px;
 `;
 
 export const FacilitiesList = styled.div`
