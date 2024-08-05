@@ -85,14 +85,18 @@ const NewPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Get the access token from localStorage
+    const accessToken = localStorage.getItem('access');
+
     try {
       const response = await axios.post(
-        'https://fitmap.store/board/', 
+        'https://fitmap.store/board/',
         { title, body: content },
         {
           withCredentials: true,
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`
           }
         }
       );
@@ -114,14 +118,14 @@ const NewPost = () => {
     <NewPostWrapper>
       <NewPostTitle>게시글 작성</NewPostTitle>
       <form onSubmit={handleSubmit}>
-        <TitleInput 
-          type="text" 
-          placeholder="제목을 입력하세요" 
+        <TitleInput
+          type="text"
+          placeholder="제목을 입력하세요"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />
-        <ContentInput 
-          placeholder="내용을 입력하세요" 
+        <ContentInput
+          placeholder="내용을 입력하세요"
           value={content}
           onChange={(e) => setContent(e.target.value)}
         />

@@ -30,6 +30,7 @@ export const NavContent = styled.div`
 export const NavLink = styled.div`
   :hover {
     background-color: white;
+    border: none;
   }
 `;
 
@@ -38,4 +39,15 @@ export const StyledLink = styled(Link)`
   color: black;
   padding: 12px;
   padding-bottom: 15px;
+`;
+
+export const LogoutButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 17px;
+  font-weight: 500;
+  :hover {
+    background-color: white;
+    border: none;
+  }
 `;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -86,35 +86,113 @@ const CommentButton = styled(ActionButton)`
   margin: 0;
 `;
 
+const EditForm = styled.div`
+  margin-top: 20px;
+`;
+
+const TitleInput = styled.input`
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #005555;
+  }
+`;
+
+const ContentInput = styled.textarea`
+  width: 100%;
+  padding: 12px;
+  height: 200px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  color: #333;
+  resize: none;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #005555;
+  }
+`;
+
+const SaveButton = styled(ActionButton)`
+  background-color: #0055553b;
+  color: #000;
+
+  &:hover {
+    background-color: #005555;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+`;
+
+const CancelButton = styled(ActionButton)`
+  background-color: #0055553b;
+  color: #000;
+  
+  &:hover {
+    background-color: #005555;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+`;
+
 const PostDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [comment, setComment] = useState('');
   const [likeCount, setLikeCount] = useState(0);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editTitle, setEditTitle] = useState('');
+  const [editContent, setEditContent] = useState('');
+  const [error, setError] = useState(null);
+
+  const accessToken = localStorage.getItem('access');
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const response = await axios.get(`http://fitmap.store/board/${id}/`, {
-          withCredentials: true // 쿠키를 함께 전송
+        const response = await axios.get(`https://fitmap.store/board/${id}/`, {
+          withCredentials: true,
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
         });
         setPost(response.data);
-        setLikeCount(response.data.likes || 0); // 기본값 0 설정
+        setLikeCount(response.data.likes || 0);
       } catch (error) {
         console.error('게시글 가져오기 오류:', error);
+        setError('게시글을 불러오는 데 실패했습니다.');
       }
     };
 
     fetchPost();
-  }, [id]);
+  }, [id, accessToken]);
 
   const handleAddComment = async () => {
     if (comment.trim()) {
       try {
         const response = await axios.post(
-          `http://fitmap.store/board/${id}/comments/`, 
+          `https://fitmap.store/board/${id}/comment/`,
           { comment },
-          { withCredentials: true }
+          {
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
+          }
         );
         setPost(prevPost => ({
           ...prevPost,
@@ -123,6 +201,7 @@ const PostDetail = () => {
         setComment('');
       } catch (error) {
         console.error('댓글 추가 오류:', error);
+        setError('댓글 추가에 실패했습니다.');
       }
     }
   };
@@ -130,30 +209,91 @@ const PostDetail = () => {
   const handleLike = async () => {
     try {
       await axios.post(
-        `http://fitmap.store/board/${id}/like/`, 
-        {}, 
-        { withCredentials: true }
+        `https://fitmap.store/board/${id}/like/`,
+        {},
+        {
+          withCredentials: true,
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        }
       );
       setLikeCount(likeCount + 1);
     } catch (error) {
       console.error('좋아요 오류:', error);
+      setError('좋아요를 추가하는 데 실패했습니다.');
     }
   };
 
   const handleEdit = () => {
-    // 수정 로직 추가
-    console.log("Edit post", id);
+    setEditTitle(post.title);
+    setEditContent(post.body);
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = async () => {
+    try {
+      await axios.put(
+        `https://fitmap.store/board/${id}/`,
+        { title: editTitle, body: editContent },
+        {
+          withCredentials: true,
+          headers: {
+            'Authorization': `Bearer ${accessToken}`
+          }
+        }
+      );
+      const response = await axios.get(`https://fitmap.store/board/${id}/`, {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+      setPost(response.data);
+      setIsEditing(false);
+    } catch (error) {
+      console.error('게시글 수정 오류:', error);
+      setError('게시글 수정에 실패했습니다.');
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
   };
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`http://fitmap.store/board/${id}/`, {
-        withCredentials: true
+      await axios.delete(`https://fitmap.store/board/${id}/`, {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
       });
-      // 삭제 후 리디렉션 또는 상태 변경 필요
-      console.log("Delete post", id);
+      navigate('/');
     } catch (error) {
       console.error('게시글 삭제 오류:', error);
+      setError('게시글 삭제에 실패했습니다.');
+    }
+  };
+
+  const handleDeleteComment = async (commentId) => {
+    try {
+      await axios.delete(`https://fitmap.store/board/${id}/comment/${commentId}/`, {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+      const response = await axios.get(`https://fitmap.store/board/${id}/`, {
+        withCredentials: true,
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
+        }
+      });
+      setPost(response.data);
+    } catch (error) {
+      console.error('댓글 삭제 오류:', error);
+      setError('댓글 삭제에 실패했습니다.');
     }
   };
 
@@ -161,36 +301,62 @@ const PostDetail = () => {
 
   return (
     <DetailWrapper>
-      <Title>{post.title}</Title>
-      <MetaInfo>
-        <div>
-          작성자: {post.nickname} | 작성일: {new Date(post.created_at).toLocaleDateString()}
-        </div>
-        <ButtonGroup>
-          <LikeButton onClick={handleLike}>👍🏻 {likeCount}</LikeButton>
-          <ActionButton onClick={handleEdit}>수정</ActionButton>
-          <ActionButton onClick={handleDelete}>삭제</ActionButton>
-        </ButtonGroup>
-      </MetaInfo>
-      <Content>{post.body}</Content>
-      <CommentSection>
-        <CommentList>
-          {post.comments.map(comment => (
-            <CommentItem key={comment.id}>
-              <strong>{comment.nickname}:</strong> {comment.comment}
-            </CommentItem>
-          ))}
-        </CommentList>
-        <AddComment>
-          <CommentInput
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {isEditing ? (
+        <EditForm>
+          <TitleInput
             type="text"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            placeholder="댓글을 입력하세요"
+            value={editTitle}
+            onChange={(e) => setEditTitle(e.target.value)}
+            placeholder="제목을 입력하세요"
           />
-          <CommentButton onClick={handleAddComment}>등록</CommentButton>
-        </AddComment>
-      </CommentSection>
+          <ContentInput
+            value={editContent}
+            onChange={(e) => setEditContent(e.target.value)}
+            placeholder="내용을 입력하세요"
+          />
+          <SaveButton onClick={handleSaveEdit}>저장</SaveButton>
+          <CancelButton onClick={handleCancelEdit}>취소</CancelButton>
+        </EditForm>
+      ) : (
+        <>
+          <Title>{post.title}</Title>
+          <MetaInfo>
+            <div>
+              작성자: {post.nickname} | 작성일: {new Date(post.created_at).toLocaleDateString()}
+            </div>
+            <ButtonGroup>
+              <LikeButton onClick={handleLike}>👍🏻 {likeCount}</LikeButton>
+              <ActionButton onClick={handleEdit}>수정</ActionButton>
+              <ActionButton onClick={handleDelete}>삭제</ActionButton>
+            </ButtonGroup>
+          </MetaInfo>
+          <Content>{post.body}</Content>
+          <CommentSection>
+            <CommentList>
+              {post.comments && post.comments.length > 0 ? (
+                post.comments.map(comment => (
+                  <CommentItem key={comment.id}>
+                    <strong>{comment.nickname} </strong> {comment.comment}
+                    <ActionButton onClick={() => handleDeleteComment(comment.id)}>삭제</ActionButton>
+                  </CommentItem>
+                ))
+              ) : (
+                <p>댓글이 없습니다.</p>
+              )}
+            </CommentList>
+            <AddComment>
+              <CommentInput
+                type="text"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="댓글을 입력하세요"
+              />
+              <CommentButton onClick={handleAddComment}>등록</CommentButton>
+            </AddComment>
+          </CommentSection>
+        </>
+      )}
     </DetailWrapper>
   );
 };
