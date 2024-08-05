@@ -3,7 +3,6 @@ import React from 'react';
 import {
   NavContainer,
   NavContent,
-  NavLink,
   StyledLink,
   LogoutButton,
 } from './Nav.styled';
@@ -27,7 +26,7 @@ const Nav = () => {
           <div>FitMap</div>
         </NavContent>
         <NavContent>
-          <NavLink>
+          <>
             <StyledLink to="/">Home</StyledLink>
             <StyledLink to="/community">Community</StyledLink>
             <StyledLink to="/servicedetails">Details</StyledLink>
@@ -41,7 +40,7 @@ const Nav = () => {
                 <StyledLink to="/signup">Sign Up</StyledLink>
               </>
             )}
-          </NavLink>
+          </>
         </NavContent>
       </NavContainer>
     </div>
