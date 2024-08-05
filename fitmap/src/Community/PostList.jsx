@@ -24,16 +24,28 @@ const PostContent = styled.div`
   flex: 1;
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
 const Title = styled.h3`
   margin: 0;
   font-size: 18px;
   color: #333;
+  flex: 1; /* Take up available space */
 `;
 
-const CreatedAt = styled.p`
-  margin: 5px 0 0;
+const InfoItem = styled.div`
   color: #555;
   font-size: 14px;
+`;
+
+const InfoDate = styled.div`
+  color: #555;
+  font-size: 14px;
+  margin-top: 5px;
 `;
 
 const CommunityTitle = styled.h1`
@@ -68,8 +80,11 @@ const PostList = () => {
         <PostItem key={post.id}>
           <PostContent>
             <Link to={`/community/post/${post.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-              <Title>{post.title}</Title>
-              <CreatedAt>작성일: {new Date(post.created_at).toLocaleDateString()}</CreatedAt>
+              <TitleWrapper>
+                <Title>{post.title}</Title>
+                <InfoDate>작성일: {new Date(post.created_at).toLocaleDateString()}</InfoDate>
+              </TitleWrapper>
+              <InfoItem>작성자: {post.nickname}</InfoItem>
             </Link>
           </PostContent>
         </PostItem>

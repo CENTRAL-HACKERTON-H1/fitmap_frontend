@@ -154,6 +154,10 @@ const PostDetail = () => {
   const [post, setPost] = useState(null);
   const [comment, setComment] = useState('');
   const [likeCount, setLikeCount] = useState(0);
+  const [hasLiked, setHasLiked] = useState(() => {
+    const savedLikeStatus = localStorage.getItem(`liked_${id}`);
+    return savedLikeStatus === 'true';
+  });
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState('');
   const [editContent, setEditContent] = useState('');
@@ -172,6 +176,7 @@ const PostDetail = () => {
         });
         setPost(response.data);
         setLikeCount(response.data.likes || 0);
+        setHasLiked(localStorage.getItem(`liked_${id}`) === 'true');
       } catch (error) {
         console.error('게시글 가져오기 오류:', error);
         setError('게시글을 불러오는 데 실패했습니다.');
@@ -184,6 +189,7 @@ const PostDetail = () => {
   const handleAddComment = async () => {
     if (comment.trim()) {
       try {
+        // 댓글 추가 API 호출
         const response = await axios.post(
           `https://fitmap.store/board/${id}/comment/`,
           { comment },
@@ -194,11 +200,13 @@ const PostDetail = () => {
             }
           }
         );
+
+        // 새 댓글 추가 후 상태 업데이트
         setPost(prevPost => ({
           ...prevPost,
-          comments: [...prevPost.comments, response.data]
+          comments: [...prevPost.comments, response.data] // 새 댓글 추가
         }));
-        setComment('');
+        setComment(''); // 댓글 입력 필드 초기화
       } catch (error) {
         console.error('댓글 추가 오류:', error);
         setError('댓글 추가에 실패했습니다.');
@@ -207,21 +215,25 @@ const PostDetail = () => {
   };
 
   const handleLike = async () => {
-    try {
-      await axios.post(
-        `https://fitmap.store/board/${id}/like/`,
-        {},
-        {
-          withCredentials: true,
-          headers: {
-            'Authorization': `Bearer ${accessToken}`
+    if (!hasLiked) {
+      try {
+        await axios.post(
+          `https://fitmap.store/board/${id}/like/`,
+          {},
+          {
+            withCredentials: true,
+            headers: {
+              'Authorization': `Bearer ${accessToken}`
+            }
           }
-        }
-      );
-      setLikeCount(likeCount + 1);
-    } catch (error) {
-      console.error('좋아요 오류:', error);
-      setError('좋아요를 추가하는 데 실패했습니다.');
+        );
+        setLikeCount(likeCount + 1);
+        setHasLiked(true);
+        localStorage.setItem(`liked_${id}`, 'true');
+      } catch (error) {
+        console.error('좋아요 오류:', error);
+        setError('좋아요를 추가하는 데 실패했습니다.');
+      }
     }
   };
 
@@ -269,7 +281,7 @@ const PostDetail = () => {
           'Authorization': `Bearer ${accessToken}`
         }
       });
-      navigate('/');
+      navigate('/community');
     } catch (error) {
       console.error('게시글 삭제 오류:', error);
       setError('게시글 삭제에 실패했습니다.');
@@ -284,13 +296,10 @@ const PostDetail = () => {
           'Authorization': `Bearer ${accessToken}`
         }
       });
-      const response = await axios.get(`https://fitmap.store/board/${id}/`, {
-        withCredentials: true,
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      });
-      setPost(response.data);
+      setPost(prevPost => ({
+        ...prevPost,
+        comments: prevPost.comments.filter(comment => comment.id !== commentId)
+      }));
     } catch (error) {
       console.error('댓글 삭제 오류:', error);
       setError('댓글 삭제에 실패했습니다.');
@@ -326,7 +335,9 @@ const PostDetail = () => {
               작성자: {post.nickname} | 작성일: {new Date(post.created_at).toLocaleDateString()}
             </div>
             <ButtonGroup>
-              <LikeButton onClick={handleLike}>👍🏻 {likeCount}</LikeButton>
+              <LikeButton onClick={handleLike} disabled={hasLiked}>
+                {hasLiked ? '❤️' : '👍🏻'} {likeCount}
+              </LikeButton>
               <ActionButton onClick={handleEdit}>수정</ActionButton>
               <ActionButton onClick={handleDelete}>삭제</ActionButton>
             </ButtonGroup>
