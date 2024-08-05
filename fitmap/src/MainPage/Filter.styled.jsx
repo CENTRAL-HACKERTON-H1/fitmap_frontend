@@ -35,6 +35,12 @@ export const SearchButton = styled.button`
   background-color: #00555526;
   border: 1px solid lightgrey;
   border-radius: 3px;
+
+  &:hover {
+    background-color: #005555;
+    color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 `;
 
 export const FilterContainer = styled.div`

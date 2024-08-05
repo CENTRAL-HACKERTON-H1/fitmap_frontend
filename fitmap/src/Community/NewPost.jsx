@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 
@@ -77,6 +78,7 @@ const NewPostTitle = styled.h1`
 `;
 
 const NewPost = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [error, setError] = useState(null);
@@ -85,7 +87,6 @@ const NewPost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Get the access token from localStorage
     const accessToken = localStorage.getItem('access');
 
     try {
@@ -105,9 +106,8 @@ const NewPost = () => {
         setSuccess('게시글이 성공적으로 작성되었습니다!');
         setTitle('');
         setContent('');
-      } else {
-        setError('게시글 작성에 실패했습니다.');
       }
+      navigate('/community');
     } catch (err) {
       setError('게시글 작성 중 오류가 발생했습니다.');
       console.error('게시글 작성 오류:', err);

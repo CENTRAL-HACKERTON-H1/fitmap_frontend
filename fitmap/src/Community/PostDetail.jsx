@@ -166,6 +166,12 @@ const PostDetail = () => {
   const accessToken = localStorage.getItem('access');
 
   useEffect(() => {
+    if (!accessToken) {
+      alert('로그인이 필요합니다.');
+      navigate('/login');
+      return;
+    }
+
     const fetchPost = async () => {
       try {
         const response = await axios.get(`https://fitmap.store/board/${id}/`, {
@@ -189,7 +195,6 @@ const PostDetail = () => {
   const handleAddComment = async () => {
     if (comment.trim()) {
       try {
-        // 댓글 추가 API 호출
         const response = await axios.post(
           `https://fitmap.store/board/${id}/comment/`,
           { comment },
