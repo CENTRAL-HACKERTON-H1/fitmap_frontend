@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-// Nav 스타일 설정
 export const NavContainer = styled.nav`
   background-color: #0055553b;
   display: flex;

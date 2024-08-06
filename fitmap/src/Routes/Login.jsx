@@ -40,7 +40,6 @@ const Login = () => {
         localStorage.setItem('refresh', response.data.refresh);
         alert('로그인 성공');
         login();
-        // 로그인 성공 후 페이지 이동
         navigate('/');
       }
     } catch (error) {

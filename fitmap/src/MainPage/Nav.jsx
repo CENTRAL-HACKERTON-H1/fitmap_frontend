@@ -29,7 +29,6 @@ const Nav = () => {
           <>
             <StyledLink to="/">Home</StyledLink>
             <StyledLink to="/community">Community</StyledLink>
-            <StyledLink to="/servicedetails">Details</StyledLink>
             {isLoggedIn ? (
               <StyledLink to="/" onClick={handleLogout}>
                 Logout

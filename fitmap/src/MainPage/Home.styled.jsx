@@ -16,23 +16,30 @@ export const FacilitiesList = styled.div`
   gap: 20px;
   margin-top: 20px;
   align-items: center;
+  margin: 40px;
+  margin-left: 85px;
 `;
 
 export const FacilityCard = styled.div`
-  background-color: #f9f9f9;
+  background-color: rgba(249, 249, 249, 0.294);
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 40px;
-  width: 250px;
+  padding: 20px;
+  width: 270px;
 `;
 
 export const FacilityName = styled.div`
-  font-size: 15px;
+  font-size: 18px;
+  padding: 20px;
 `;
 export const FacilityContent = styled.div`
-  font-size: 12px;
-  font-weight: 300;
+  font-size: 15px;
+  display: flex;
+  gap: 10px;
+  padding: 5px;
 `;
 export const ContentName = styled.div`
-  font-size: 12px;
+  font-size: 15px;
+
+  font-weight: 600;
 `;

@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; // 눈 아이콘 import
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
-// Style import
 import {
   MainContainer,
   SignUpContainer,
@@ -25,9 +24,9 @@ const SignUp = () => {
   const [pw, setPw] = useState('');
   const [pw2, setPw2] = useState('');
   const [nickname, setNickname] = useState('');
-  const [showPw, setShowPw] = useState(false); // 비밀번호 표시 토글 상태
-  const [showPw2, setShowPw2] = useState(false); // 비밀번호 확인 표시 토글 상태
-  const [passwordMatch, setPasswordMatch] = useState(true); // 비밀번호 일치 상태
+  const [showPw, setShowPw] = useState(false);
+  const [showPw2, setShowPw2] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(true);
   const navigate = useNavigate();
 
   const handleSubmit = async () => {
@@ -77,7 +76,7 @@ const SignUp = () => {
           <InputTitle>비밀번호</InputTitle>
           <PasswordContainer>
             <InputContent
-              type={showPw ? 'text' : 'password'} // 토글 상태에 따라 type 변경
+              type={showPw ? 'text' : 'password'}
               placeholder="비밀번호를 입력해주세요."
               value={pw}
               onChange={(e) => setPw(e.target.value)}
@@ -89,7 +88,7 @@ const SignUp = () => {
           <InputTitle>비밀번호 확인</InputTitle>
           <PasswordContainer>
             <InputContent
-              type={showPw2 ? 'text' : 'password'} // 토글 상태에 따라 type 변경
+              type={showPw2 ? 'text' : 'password'}
               placeholder="비밀번호를 확인해주세요."
               value={pw2}
               onChange={(e) => setPw2(e.target.value)}
