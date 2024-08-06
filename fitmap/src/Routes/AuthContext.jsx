@@ -7,7 +7,6 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
-    // 로컬 스토리지에서 로그인 상태 확인
     return localStorage.getItem('isLoggedIn') === 'true';
   });
 

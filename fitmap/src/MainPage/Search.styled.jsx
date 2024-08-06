@@ -17,6 +17,5 @@ export const SearchInput = styled.input`
   width: 250px;
   height: 25px;
   border: none;
-  /* 클릭했을 때 ouline 생김 방지 */
   outline: none;
 `;

@@ -12,8 +12,12 @@ const Community = () => {
   return (
     <Container>
       <Sidebar>
-        <Link to="new-post"><Button>게시글 작성</Button></Link>
-        <Link to="events"><Button>이벤트</Button></Link>
+        <Link to="new-post">
+          <Button>게시글 작성</Button>
+        </Link>
+        <Link to="events">
+          <Button>이벤트</Button>
+        </Link>
       </Sidebar>
       <Content>
         <Routes>

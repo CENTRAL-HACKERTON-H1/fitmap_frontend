@@ -25,7 +25,7 @@ const PageButton = styled.button`
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pageNumbers = [];
-  const maxPageNumbers = 5; // 보여줄 최대 페이지 번호 개수
+  const maxPageNumbers = 5;
   let startPage, endPage;
 
   if (totalPages <= maxPageNumbers) {
@@ -51,7 +51,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <PaginationContainer>
       <PageButton
-        onClick={() => onPageChange(currentPage - 1)}
+        onClick={() => onPageChange(currentPage - 5)}
         disabled={currentPage === 1}
       >
         이전
@@ -68,7 +68,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       ))}
 
       <PageButton
-        onClick={() => onPageChange(currentPage + 1)}
+        onClick={() => onPageChange(currentPage + 5)}
         disabled={currentPage === totalPages}
       >
         다음
